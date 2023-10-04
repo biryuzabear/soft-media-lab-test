@@ -1,0 +1,2 @@
+ALTER TABLE performance
+    ADD CONSTRAINT ck_prevent_inserts CHECK (FALSE) NO INHERIT NOT VALID;
