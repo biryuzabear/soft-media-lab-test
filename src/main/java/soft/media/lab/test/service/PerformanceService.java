@@ -21,11 +21,11 @@ public class PerformanceService {
     }
 
     public Performance getPerformanceByText(String text) {
-        return performanceRepository.getPerformanceByText(text);
+        return performanceRepository.getPerformanceByText(text).orElseThrow(() -> new EntityNotFoundException("Performance with text '" + text + "' not found"));
     }
 
     public List<PerformanceDTO> getAllPerformances() {
-        return performanceRepository.findAll().stream().map(PerformanceDTO::fromEntity).collect(Collectors.toList());
+        return performanceRepository.findAll().stream().map(e -> new PerformanceDTO(e.getText())).collect(Collectors.toList());
     }
 
     @Transactional

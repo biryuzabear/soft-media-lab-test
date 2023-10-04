@@ -6,5 +6,4 @@ import jakarta.validation.constraints.Past;
 import java.sql.Date;
 
 public record StudentWithPerformanceDTO(@NotBlank String fullName, @Past Date birthDate, String performance) {
-
 }
