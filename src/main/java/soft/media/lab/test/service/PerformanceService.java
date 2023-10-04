@@ -1,9 +1,8 @@
 package soft.media.lab.test.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import soft.media.lab.test.dto.PerformanceDTO;
 import soft.media.lab.test.entity.Performance;
 import soft.media.lab.test.repository.PerformanceRepository;
@@ -31,6 +30,10 @@ public class PerformanceService {
 
     @Transactional
     public PerformanceDTO updatePerformance(Long id, PerformanceDTO performanceDTO) {
-        return null;
+        Performance existingPerformance = performanceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Performance with ID " + id + " not found"));
+        existingPerformance.setText(performanceDTO.text());
+        Performance updatedPerformance = performanceRepository.save(existingPerformance);
+        return new PerformanceDTO(updatedPerformance.getText());
     }
 }

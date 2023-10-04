@@ -5,12 +5,7 @@ import java.sql.Date;
 
 @Entity
 @Table(name = "student")
-public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+public class Student extends BaseEntity{
 
     @Column(name = "full_name", nullable = false)
     private String fullName;
@@ -21,14 +16,6 @@ public class Student {
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "performance_id")
     private Performance performance;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getFullName() {
         return fullName;

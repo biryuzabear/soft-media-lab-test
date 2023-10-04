@@ -1,10 +1,9 @@
 package soft.media.lab.test.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 import soft.media.lab.test.dto.StudentWithPerformanceDTO;
-import soft.media.lab.test.entity.Student;
 import soft.media.lab.test.repository.StudentRepository;
 
 import java.util.List;
@@ -21,11 +20,12 @@ public class StudentService {
     }
 
     public List<StudentWithPerformanceDTO> getAllStudentsWithPerformances() {
-        return null;
+        return studentRepository.findAllWithPerformanceDetails();
     }
 
     public StudentWithPerformanceDTO getStudent(Long id) {
-        return null;
+        return studentRepository.findByIdWithPerformanceDetails(id)
+                .orElseThrow(() -> new EntityNotFoundException("Performance with ID " + id + " not found"));
     }
 
     @Transactional
