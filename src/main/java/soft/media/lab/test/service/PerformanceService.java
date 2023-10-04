@@ -2,9 +2,11 @@ package soft.media.lab.test.service;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import soft.media.lab.test.dto.PerformanceDTO;
 import soft.media.lab.test.entity.Performance;
+import soft.media.lab.test.log.LoggingService;
 import soft.media.lab.test.repository.PerformanceRepository;
 
 import java.util.List;
@@ -15,9 +17,11 @@ public class PerformanceService {
 
 
     private final PerformanceRepository performanceRepository;
+    private final LoggingService loggingService;
 
-    public PerformanceService(PerformanceRepository performanceRepository) {
+    public PerformanceService(PerformanceRepository performanceRepository, LoggingService loggingService) {
         this.performanceRepository = performanceRepository;
+        this.loggingService = loggingService;
     }
 
     public Performance getPerformanceByText(String text) {
@@ -25,7 +29,10 @@ public class PerformanceService {
     }
 
     public List<PerformanceDTO> getAllPerformances() {
-        return performanceRepository.findAll().stream().map(e -> new PerformanceDTO(e.getText())).collect(Collectors.toList());
+        return performanceRepository.findAll().stream().map(e -> {
+            loggingService.log("Получили: " + e);
+            return new PerformanceDTO(e.getText());
+        }).collect(Collectors.toList());
     }
 
     @Transactional
