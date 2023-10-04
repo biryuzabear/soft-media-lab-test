@@ -7,6 +7,8 @@ import reactor.core.publisher.Mono;
 import soft.media.lab.test.dto.PerformanceDTO;
 import soft.media.lab.test.service.PerformanceService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/performances")
 public class PerformanceController {
@@ -17,12 +19,12 @@ public class PerformanceController {
     }
 
     @GetMapping
-    public Flux<PerformanceDTO> getAllPerformances() {
+    public List<PerformanceDTO> getAllPerformances() {
         return performanceService.getAllPerformances();
     }
 
     @PutMapping("/{id}")
-    public Mono<PerformanceDTO> updatePerformance(@PathVariable Long id, @Valid @RequestBody PerformanceDTO performanceDTO) {
+    public PerformanceDTO updatePerformance(@PathVariable Long id, @Valid @RequestBody PerformanceDTO performanceDTO) {
         return performanceService.updatePerformance(id, performanceDTO);
     }
 }

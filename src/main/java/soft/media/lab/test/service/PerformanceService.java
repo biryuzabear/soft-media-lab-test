@@ -1,11 +1,15 @@
 package soft.media.lab.test.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import soft.media.lab.test.dto.PerformanceDTO;
+import soft.media.lab.test.entity.Performance;
 import soft.media.lab.test.repository.PerformanceRepository;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PerformanceService {
@@ -17,11 +21,16 @@ public class PerformanceService {
         this.performanceRepository = performanceRepository;
     }
 
-    public Flux<PerformanceDTO> getAllPerformances() {
-        return performanceRepository.findAll().map(PerformanceDTO::fromEntity);
+    public Performance getPerformanceByText(String text) {
+        return performanceRepository.getPerformanceByText(text);
     }
 
-    public Mono<PerformanceDTO> updatePerformance(Long id, PerformanceDTO performanceDTO) {
+    public List<PerformanceDTO> getAllPerformances() {
+        return performanceRepository.findAll().stream().map(PerformanceDTO::fromEntity).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public PerformanceDTO updatePerformance(Long id, PerformanceDTO performanceDTO) {
         return null;
     }
 }

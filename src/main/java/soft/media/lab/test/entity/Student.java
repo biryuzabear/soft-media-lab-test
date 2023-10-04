@@ -18,7 +18,7 @@ public class Student {
     @Column(name = "birth_date")
     private Date birthDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "performance_id")
     private Performance performance;
 
